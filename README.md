@@ -1,6 +1,7 @@
 # Tmatter
 
 ## フォルダ構成
+```
 .
 ├── backend
 │   ├── Dockerfile
@@ -17,6 +18,7 @@
 │       └── script.js
 ├── docker-compose.yaml
 └── .env                   --☆
+```
 
 ## 環境構築
 前提としてDockerがインストールされていて、アプリが起動していることを確認お願いします。
@@ -34,4 +36,4 @@ database.yml
 ```bash
 docker-compose up --build
 ```
-問題なく起動したら「http://0.0.0.0:456」をChromeで開いて「Hello World」が表示されたら環境構築完了です。
+問題なく起動したら「 http://0.0.0.0:456 」をChromeで開いて「Hello World」が表示されたら環境構築完了です。
