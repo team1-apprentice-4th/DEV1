@@ -37,3 +37,4 @@ database.yml
 docker compose up --build
 ```
 問題なく起動したら「 http://0.0.0.0:456 」をChromeで開いて「Hello World」が表示されたら環境構築完了です。
+以上
