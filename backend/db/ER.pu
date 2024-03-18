@@ -1,0 +1,37 @@
+' 表記ルール
+' 頭には主キーを記載し -- で区切る
+' <<FK>> 外部キー
+' <<U>> ユニークキー
+' カラム名 : 型 : 説明 を書く
+' * 表示修飾子は必須属性を表します。 空白を1文字後ろに入れることで、強調{**}と解釈されることを防ぐと良いでしょう:
+
+
+@startuml Tmatter
+hide circle
+hide empty members
+skinparam linetype ortho
+
+entity memos {
+    posted_at : timestamp : 投稿日時
+    title_name : char : メモ名
+    --
+    <<FK>> category_id : int : 紐づけるID
+    <<U>> last_updated_at : char : 修正日時
+    <<U>> resolved_at : timestamp : 解決日時
+    <<U>> user_id : int : ユーザーID
+}
+
+entity users {
+    user_id : int : ユーザーID
+    --
+    user_name : char : ユーザー名
+}
+
+entity categories {
+    category_id : int : 紐づけるID
+    category_name : char : ruby等の技術カテゴリ名
+}
+
+memos }|--|| categories
+memos }|--|| users
+@endumls
