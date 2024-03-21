@@ -12,26 +12,35 @@ hide empty members
 skinparam linetype ortho
 
 entity memos {
-    posted_at : timestamp : 投稿日時
-    title_name : char : メモ名
+    memo_id : int : メモID
     --
-    <<FK>> category_id : int : 紐づけるID
-    <<U>> last_updated_at : char : 修正日時
+    title_name : char(200) : メモ名
+    <<U>> posted_at : timestamp : 投稿日時
+    category_id : int : 紐づけるID
+    <<U>> last_updated_at : timestamp : 修正日時
     <<U>> resolved_at : timestamp : 解決日時
-    <<U>> user_id : int : ユーザーID
+    user_id : int : ユーザーID
 }
 
 entity users {
     user_id : int : ユーザーID
     --
-    user_name : char : ユーザー名
+    user_name : char(100) : ユーザー名
+}
+
+entity memo_categorie {
+    id : int : memo_categorieテーブルid
+    --
+    <<FK>> memo_id : int : メモID
+    <<FK>> category_id : int : 紐づけるID
 }
 
 entity categories {
     category_id : int : 紐づけるID
-    category_name : char : ruby等の技術カテゴリ名
+    category_name : char(100) : ruby等の技術カテゴリ名
 }
 
-memos }|--|| categories
+memo_categorie }|--|| memos
+memo_categorie }|--|| categories
 memos }|--|| users
 @endumls
