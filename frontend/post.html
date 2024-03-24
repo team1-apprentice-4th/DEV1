@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投稿画面</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <h1><i class="fa-regular fa-pen-to-square"></i>エラーのメモを残そう</h1>
+  <div class="container">
+    <div class="form">
+      <form action="" id="memo" method="post">
+        <div class="error">
+          <label for="error"><a>エラー</a></label>
+          <textarea name="error" id="error"></textarea>
+        </div>
+        <div class="category">
+          <fieldset>
+            <legend>カテゴリーを選んでください</legend>
+            <p>※複数選択可</p>
+            <label for="ruby"><input type="checkbox" id="ruby">Ruby</label>
+            <label for="sql"><input type="checkbox" id="sql">SQL</label>
+            <label for="javascript"><input type="checkbox" id="javascript">JavaScript</label>
+            <label for="php"><input type="checkbox" id="php">PHP</label>
+            <label for="aws"><input type="checkbox" id="aws">AWS</label>
+            <label for="html"><input type="checkbox" id="html">HTML</label>
+            <label for="css"><input type="checkbox" id="css">CSS</label>
+            <label for="rails"><input type="checkbox" id="rails">Rails</label>
+            <label for="laravel"><input type="checkbox" id="laravel">Laravel</label>
+            <label for="api"><input type="checkbox" id="api">API</label>
+            <label for="react"><input type="checkbox" id="react">React</label>
+            <p>その他</p>
+            <input type="text" id="additional">
+            <input type="button" value="カテゴリーを追加する" id="add_category"><br>
+          </fieldset>
+        </div>
+        <div class="detail">
+          <label for="detail"><a>問題の詳細</a></label>
+          <textarea name="detail" id="detail"></textarea>
+        </div>
+        <div class="solution">
+          <label for="solution"><a>解決法</a></label>
+          <textarea name="solution" id="solution"></textarea>
+        </div>
+        <div class="finish">
+          <label for=""><input type="checkbox" checked>未解決</label>
+          <label for=""><input type="checkbox">解決済み</label>
+        </div>
+        <div class="btn">
+          <button formmethod="post" form="memo">投稿する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="category.js"></script>
+</body>
+</html>
