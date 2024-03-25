@@ -1,5 +1,20 @@
 # Tmatter
 
+## 進捗管理資料
+https://docs.google.com/spreadsheets/d/19ewXW82W5lEVyVkVdIdeyYkbeFR40s7wWx56AfrsziY/edit?usp=sharing
+
+## git運用ルール
+基本方針は以下のGitFlowに従う<br>
+https://zenn.dev/mo_ri_regen/articles/about-git-flow
+
+- ブランチ <br>
+それぞれの機能のタスクごとにそれぞれブランチを切る。 <br>
+ガントチャートに記載しているタスクの粒度くらいの想定。
+
+- プルリク <br>
+基本的にレビュー者不要なものは各自でマージする。(各機能で担当が分かれており、レビューが難しいため) <br>
+コンフリクトが発生する際や、フロントとバックエンドの結合部分のような相談が必要な際は関係者にメンション飛ばして決める。
+
 ## フォルダ構成
 ```
 .
@@ -34,6 +49,7 @@ database.yml
 ```
 次にイメージを作成してコンテナを立ち上げます。
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 問題なく起動したら「 http://0.0.0.0:456 」をChromeで開いて「Hello World」が表示されたら環境構築完了です。
+以上

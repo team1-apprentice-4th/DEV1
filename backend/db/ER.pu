@@ -1,0 +1,65 @@
+' 表記ルール
+' 頭には主キーを記載し -- で区切る
+' <<FK>> 外部キー
+' <<U>> ユニークキー
+' カラム名 : 型 : 説明 を書く
+' * 表示修飾子は必須属性を表します。 空白を1文字後ろに入れることで、強調{**}と解釈されることを防ぐと良いでしょう:
+
+
+@startuml Tmatter
+hide circle
+hide empty members
+skinparam linetype ortho
+skinparam defaultFontName MSP ゴシック体
+
+entity memos {
+    memo_id : int : メモID
+    --
+    title_name : var_char(200) : メモタイトル
+    problem_categorie_id : int : 問題ID
+    solution : var_char(200) : 解決方法
+    <<U>> posted_at : timestamp : 投稿日時
+    tech_category_id : int : 技術カテゴリID
+    <<U>> last_updated_at : timestamp : 修正日時
+    <<U>> resolved_at : timestamp : 解決日時
+    <<FK>> user_id : int : ユーザーID
+}
+
+entity users {
+    user_id : int : ユーザーID
+    --
+    user_name : var_char(100) : ユーザー名
+}
+
+entity memo_problem_categorie {
+    id : int : memo_problem_categorieテーブルid
+    --
+    <<FK>> memo_id : int : 紐づけるID
+    <<FK>> problem_categorie_id : int : 紐づけるID
+}
+
+entity problem_categories {
+    problem_category_id : int : 問題カテゴリID
+    --
+    problem_category_name : var_char(100) : 問題カテゴリ名
+}
+
+entity memo_tech_categorie {
+    id : int : memo_tech_categorieテーブルid
+    --
+    <<FK>> memo_id : int : 紐づけるID
+    <<FK>> tech_category_id : int : 紐づけるID
+}
+
+entity tech_categories {
+    tech_category_id : int : 技術カテゴリID
+    --
+    tech_category_name : var_char(100) : ruby等の技術カテゴリ名
+}
+
+memo_tech_categorie }|--|| memos
+memo_tech_categorie }|--|| tech_categories
+memo_problem_categorie }|--|| memos
+memo_problem_categorie }|--|| problem_categories
+memos }|--|| users
+@endumls
