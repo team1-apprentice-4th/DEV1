@@ -11,5 +11,4 @@ RUN bundle install
 # アプリケーションの残りの部分をコピー
 COPY . .
 
-
 CMD ["ruby", "app/app.rb", "-o", "0.0.0.0"]
