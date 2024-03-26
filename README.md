@@ -51,5 +51,33 @@ database.yml
 ```bash
 docker compose up --build
 ```
-問題なく起動したら「 lodalhost:4567 」をChromeで開いて「Hello World」が表示されたら環境構築完了です。
+問題なく起動したら「 lodalhost:4567 」をChromeで開いて「Hello World」が表示されたらコンテナ起動です。
+
+次にSQLのテーブルが作成されているか確認します。まずはコンテナ内のMySQLに接続します。
+```bash
+docker exec -it [コンテナ名] mysql -u root -p
+```
+パスワードを求められるのでパスワードを入力。
+
+次に```show databases;```をしてTmatterのデータベースが作成されていれば完了です。
+```sql
++--------------------+
+| Database           |
++--------------------+
+| Tmatter            |
+| information_schema |
+| mydatabase         |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+```
+
+作成されていない場合は下記コマンドを実行してから再度コンテナを立ち上げてください。
+```bash
+docker compose down -v
+```
+
+Volumeの部分を追加したので、前回のキャッシュが残っていてうまくマウントされない場合があるので、```-v```をつけてVolumeごと削除します。
+
 以上
