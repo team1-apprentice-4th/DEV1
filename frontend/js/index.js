@@ -18,7 +18,7 @@ const tags = document.querySelectorAll(".tagelement");
 
 /*検索ボタンをクリックした際の操作*/
  function createLocal(key){
-  const config={
+  return{
     params:{
       q:key,
       tag:times
@@ -30,7 +30,8 @@ const tags = document.querySelectorAll(".tagelement");
     // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
     // ローカルDBに検索に必要なクエリを作成
-    createLocal(searchkey);
-    const reslocal= await axios.get('フロントエンド作成',config)
+    const config = createLocal(searchkey);
+  console.log(config);
+    // const reslocal= await axios.get('フロントエンド作成',config)
   });
 
