@@ -17,6 +17,7 @@ end
 
 # POSTリクエストを処理する
 server.mount_proc '/search' do |req, res|
+  res.header['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
   if req.request_method == 'POST'
     begin
       # リクエストボディからキーを取得
