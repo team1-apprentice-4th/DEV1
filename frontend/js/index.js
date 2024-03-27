@@ -1,8 +1,7 @@
 const searchbuttom=document.querySelector(".searchimg");
 const tags = document.querySelectorAll(".tagelement");
 
-
-/*タグをクリックした際の操作*/
+  // タグをクリックした際の操作
   let times = {};
   tags.forEach(tag => {
     times[tag.id] = 0;
@@ -16,22 +15,31 @@ const tags = document.querySelectorAll(".tagelement");
     });
   });
 
-/*検索ボタンをクリックした際の操作*/
- function createLocal(key){
-  return{
-    params:{
-      q:key,
-      tag:times
-    }
+  // 検索をかけるtagの取得
+  function gettags(times){
+    let searchtag=[];
+    tags.forEach(tag => {
+      if(times[tag.id]% 2!=0){
+        searchtag.push(tag.id);
+      }
+    });
+    return searchtag;
   };
- };
+
   searchbuttom.addEventListener('click',async function(e){
+    // ページの更新を防ぐ
     e.preventDefault();
     // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
     // ローカルDBに検索に必要なクエリを作成
-    const config = createLocal(searchkey);
-  console.log(config);
-    // const reslocal= await axios.get('フロントエンド作成',config)
+    const temp = {
+      "title":searchkey,
+      "tag":gettags(times)
+    };
+    //　JSON形式に変換
+    config = JSON.stringify(temp);
+    alert(config)
+    const reslocal= await axios.post('http://localhost:4567/serch',config)
+    
   });
 
