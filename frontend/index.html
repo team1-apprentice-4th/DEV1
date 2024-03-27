@@ -4,16 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/indexstyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <title>Tmatter</title>
 </head>
 <body>
   <header>
     <div class="title">Tmatter</div>
-      <form action="" method="post" class="search">
-        <div class="searclog">検索</div>
-        <div class="searctex"><input type="text"></div>
-        <div class="searcimg">
-          <button><img src="picture\検索.png" alt=""></button>
+      <form action="" method="post">
+        <div class="search">
+          <div class="searhclog">検索</div>
+          <div class="searchtext"><input class="searchkey" type="text"></div>
+          <div class="searchimg">
+            <button><img src="source\検索.png" alt=""></button>
+          </div>
+        </div>
+        <div class="tag">
+          <input id="Ruby" class="tagelement"   type="button" value="Ruby" />
+          <input id="Python" class="tagelement" type="button" value="Python" >
+          <input id="SQL" class="tagelement"    type="button" value="SQL" />
         </div>
       </form>
       <a class="save">学習内容を保存</a>
@@ -63,6 +72,6 @@
   </main>
 
 
-  <script src="js\main.js"></script>
+  <script src="js\index.js"></script>
 </body>
 </html>

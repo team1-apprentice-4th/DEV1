@@ -1,0 +1,6 @@
+problem_category_id,problem_category_name
+1,環境構築
+2,API作成
+3,フレームワーク選定
+4,コンテナ管理
+5,状態管理
