@@ -22,7 +22,7 @@ server.mount_proc '/search' do |req, res|
     begin
       # リクエストボディからキーを取得
       data = JSON.parse(req.body)
-      key = data['key']
+      title, categories = data.values_at('title', 'tag')
 
       # MySQLデータベースに接続
       client = Mysql2::Client.new(db_config)
@@ -30,9 +30,9 @@ server.mount_proc '/search' do |req, res|
       # データベースを選択
       client.query('USE Tmatter')
 
-      # ここで取得するために必要なSQLを書く
-      statement = client.prepare('SELECT * FROM memos WHERE memo_id = ?')
-      results = statement.execute(key)
+      # こで得するために必要なSQLを書く
+      statement = client.prepare('SELECT * FROM memos WHERE title_name LIKE ?')
+      results = statement.execute("%#{title}%")
 
       # 結果をJSON形式で返す
       res.status = 200
