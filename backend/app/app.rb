@@ -31,14 +31,14 @@ server.mount_proc '/search' do |req, res|
       client.query('USE Tmatter')
 
       # ここで取得するために必要なSQLを書く
-      statement = client.prepare("SELECT * FROM memos WHERE memo_id = ?")
+      statement = client.prepare('SELECT * FROM memos WHERE memo_id = ?')
       results = statement.execute(key)
 
       # 結果をJSON形式で返す
       res.status = 200
       res.content_type = 'application/json'
       res.body = results.to_a.to_json
-    rescue => e
+    rescue StandardError => e
       res.status = 500
       res.content_type = 'application/json'
       res.body = { error: e.message }.to_json
