@@ -43,10 +43,25 @@ git clone [URL]
 ```
 次に、別で別途配布するファイルを上記の構成の通り配置してください。(--☆で記載してるところです)
 認証情報が入ってるので実務を想定してgithubにはあげないようにしてます。
+database.ymlの記載内容は以下の通り。
 ```
-database.yml
-.env
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: mydatabase
+  username: <<your user name>>
+  password: <<your password>>
+  host: db
+  port: 3306
 ```
+
+.envの記載内容は以下の通り。
+```
+MYSQL_ROOT_PASSWORD=<<your password>>
+MYSQL_DATABASE=mydatabase
+```
+
+
 次にイメージを作成してコンテナを立ち上げます。
 ```bash
 docker compose up --build
