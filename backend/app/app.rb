@@ -16,21 +16,39 @@ server.mount_proc '/' do |_, res|
 end
 
 # POSTリクエストを処理する
-server.mount_proc '/search' do |req, res|
+server.mount_proc '/memos' do |req, res|
+  # MySQLデータベースに接続
+  client = Mysql2::Client.new(db_config)
+  # データベースを選択
+  client.query('USE Tmatter')
   res.header['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
-  if req.request_method == 'POST'
+
+  if req.request_method == 'GET'
     begin
-      # リクエストボディからキーを取得
+      # リクエストクエリパラメタからキーを取得
+      data = req.query
+      title, categories = data.values_at('title', 'tag')
+
+      # こで得するために必要なSQLを書く
+      statement = client.prepare('SELECT * FROM memos WHERE title_name LIKE ?')
+      results = statement.execute("%#{title}%")
+
+      # 結果をJSON形式で返す
+      res.status = 200
+      res.content_type = 'application/json'
+      res.body = results.to_a.to_json
+    rescue StandardError => e
+      res.status = 500
+      res.content_type = 'application/json'
+      res.body = { error: e.message }.to_json
+    end
+  elsif req.request_method == 'POST'
+    begin
+      # リクエストボディーからキーを取得
       data = JSON.parse(req.body)
       title, categories = data.values_at('title', 'tag')
 
-      # MySQLデータベースに接続
-      client = Mysql2::Client.new(db_config)
-
-      # データベースを選択
-      client.query('USE Tmatter')
-
-      # こで得するために必要なSQLを書く
+      # 登録SQLを書く
       statement = client.prepare('SELECT * FROM memos WHERE title_name LIKE ?')
       results = statement.execute("%#{title}%")
 
