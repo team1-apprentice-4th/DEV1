@@ -93,3 +93,23 @@ label, input[type='checkbox'] {
 .finish {
   display: none;
 }
+
+.btn {
+  margin-top: 24px;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #137EC5;
+}
+
+.back_home {
+  margin: 10px auto;
+  color: #137EC5;
+  text-align: center;
+  padding: 0;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+}
