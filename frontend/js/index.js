@@ -25,21 +25,78 @@ const tags = document.querySelectorAll(".tagelement");
     });
     return searchtag;
   };
+  // 検索をかけるtagの取得【Qiita】
+  function qiitagettags(times){
+    let qiitasearchtag="";
+    tags.forEach(tag => {
+      if(times[tag.id]% 2!=0){
+        qiitasearchtag+=","+tag.id;
+      }
+    });
+    return qiitasearchtag.substring(1);
+  };
 
+//検索ボタンをクリックした後の挙動
   searchbuttom.addEventListener('click',async function(e){
     // ページの更新を防ぐ
     e.preventDefault();
     // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
-    // ローカルDBに検索に必要なクエリを作成
-    const temp = {
-      "title":searchkey,
-      "tag":gettags(times)
-    };
-    //　JSON形式に変換
-    config = JSON.stringify(temp);
-    alert(config)
-    const reslocal= await axios.get('http://localhost:4567/memos',config)
+    //【ローカル検索】
+    // ローカルDBに検索に必要なURLを作成 GETリクエスト
+    // const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
+    // ローカルDBの情報を取得
+    // const reslocal= await axios.get(localURL);
+    // 【ここからは高橋さんの実装】
+
+
+
+    //【Qiita検索】
+    const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
+    const page = 1;
+    const perPage = 20;
+    alert(queryParam);
+    const resqiita = await axios.get(`https://qiita.com/api/v2/items?query=${queryParam}&page=${page}&per_page=${perPage}`);
     
-  });
+    //　検索結果の表示
+    for(let qiitadata of resqiita.data){
+      const qiitalist=document.querySelector(".qiitalist");
+      const qiitali=document.createElement("li");
+      const qiitaa=document.createElement("a");
+      const qiitaimg=document.createElement("img");
+      const qiitadiv=document.createElement("div");
+      const qiitatag=document.createElement("p");
+
+      let qiitatitle = qiitadata.title;
+      let qiitaurl = qiitadata.url;
+      let qiitauserimg=qiitadata.user.profile_image_url;
+      let qiitatags=qiitadata.tags[0].name;
+
+      // 確認
+      // console.log(qiitatitle);
+      // console.log(qiitaurl);
+      // console.log(qiitauserimg);
+      // console.log(qiitatags);
+
+      // 構成
+      qiitalist.appendChild(qiitali);
+      qiitali.appendChild(qiitaa);
+      qiitaa.appendChild(qiitaimg);
+      qiitaa.appendChild(qiitadiv);
+      qiitaa.appendChild(qiitatag);
+
+      // クラスを付与
+      qiitali.classList.add("qiitaelement");
+      qiitaa.classList.add("qiitaelement_a");
+      qiitaimg.classList.add("qiitaelement_a_img");
+      qiitadiv.classList.add("qiitaTitle");
+
+     //データ挿入
+     qiitaa.href=qiitaurl;
+     qiitaa.target="_blank";
+     qiitaimg.src=qiitauserimg;
+     qiitadiv.textContent=qiitatitle;
+    };
+ 
+ });
 
