@@ -25,7 +25,7 @@ CREATE TABLE problem_categories (
     problem_category_name VARCHAR(100)
 );
 
-CREATE TABLE memo_problem_categorie (
+CREATE TABLE memo_problem_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     memo_id INT,
     problem_categorie_id INT,
@@ -38,7 +38,7 @@ CREATE TABLE tech_categories (
     tech_category_name VARCHAR(100)
 );
 
-CREATE TABLE memo_tech_categorie (
+CREATE TABLE memo_tech_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     memo_id INT,
     tech_category_id INT,
