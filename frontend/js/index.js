@@ -52,7 +52,6 @@ const tags = document.querySelectorAll(".tagelement");
     let memos_array = [];
     if( 0 < memos.length) {
       for(const memo of memos) {
-        console.log(memo);
         // 投稿日時表示
         const posted_at = document.createTextNode(memo.posted_at.split(' ')[0]);
         let a_posted_at = document.createElement('a');
