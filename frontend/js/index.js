@@ -39,7 +39,7 @@ const tags = document.querySelectorAll(".tagelement");
     //　JSON形式に変換
     config = JSON.stringify(temp);
     alert(config)
-    const reslocal= await axios.post('http://localhost:4567/serch',config)
+    const reslocal= await axios.get('http://localhost:4567/memos',config)
     
   });
 
