@@ -49,19 +49,32 @@ const tags = document.querySelectorAll(".tagelement");
     const reslocal= await axios.get(localURL);
     // 【ここからは高橋さんの実装】
     const memos = reslocal.data;
-
     let memos_array = [];
     if( 0 < memos.length) {
       for(const memo of memos) {
-        const posted_at = document.createTextNode(memo.posted_at);
+        console.log(memo);
+        // 投稿日時表示
+        const posted_at = document.createTextNode(memo.posted_at.split(' ')[0]);
+        let a_posted_at = document.createElement('a');
+        const post_stamp = document.createTextNode('投稿');
+        a_posted_at.classList.add('post_date');
+        a_posted_at.appendChild(posted_at);
+        a_posted_at.appendChild(post_stamp);
+        // 更新日時表示
+        const updated_at = document.createTextNode(memo.last_updated_at.split(' ')[0]);
+        let a_updated_at = document.createElement('a');
+        const update_stamp = document.createTextNode('更新');
+        a_updated_at.classList.add('update_date');
+        a_updated_at.appendChild(updated_at);
+        a_updated_at.appendChild(update_stamp);
+        // タイトル表示
         const title = document.createTextNode(memo.title_name);
-        let p_posted_at = document.createElement('p');
-        p_posted_at.appendChild(posted_at);
         let p_title = document.createElement('p');
         p_title.appendChild(title);
         const div = document.createElement('div');
         div.setAttribute('class', 'memo');
-        div.appendChild(p_posted_at);
+        div.appendChild(a_posted_at);
+        div.appendChild(a_updated_at);
         div.appendChild(p_title);
         memos_array.push(div);
       }
