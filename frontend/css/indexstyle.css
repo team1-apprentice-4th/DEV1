@@ -158,6 +158,7 @@ main{
   background-color:rgb(255, 255, 255,0.5);
   border:8px solid #67CB1B;
   border-radius: 16px;
+  Overflow: auto;
 }
 .qiitalog{
   padding: 0;
@@ -180,6 +181,7 @@ main{
   margin: 0;
   padding: 0;
   width: 100%;
+  
 }
 .qiitaelement{
   list-style: none;
@@ -190,13 +192,13 @@ main{
   background-color:rgb(255, 255, 255);
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 }
-.qiitaelement a{
+.qiitaelement_a{
   display: flex;
   justify-content: space-between;
   padding: 2% 5%;
   box-sizing: border-box;
 }
-.qiitaelement a img{
+.qiitaelement_a_img{
   width: 10%;
   object-fit: cover;
   border-radius: 50%;
