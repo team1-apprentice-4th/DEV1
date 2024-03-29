@@ -34,7 +34,16 @@ postbuttom.addEventListener('click',async function(e){
   };
   // // JSON形式に変換
   config = JSON.stringify(temp);
-  alert(config)
-  const reslocal= await axios.post('http://localhost:4567/memos',config)
-  console.log(reslocal)
+  try {
+
+    const reslocal = await axios.post('http://localhost:4567/memos', config);
+
+    alert('保存完了しました');
+    // 画面遷移
+    window.location.href = 'index.html';
+  } catch (error) {
+
+    console.error('保存に失敗しました:', error);
+    alert('保存に失敗しました');
+  }
 });
