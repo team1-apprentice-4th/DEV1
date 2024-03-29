@@ -35,6 +35,6 @@ postbuttom.addEventListener('click',async function(e){
   // // JSON形式に変換
   config = JSON.stringify(temp);
   alert(config)
-  const reslocal= await axios.post('http://localhost:4567/search',config)
-  
+  const reslocal= await axios.post('http://localhost:4567/memos',config)
+  console.log(reslocal)
 });
