@@ -12,8 +12,8 @@ searchbuttom.addEventListener('click',async function(e){
   };
 
   // JSON形式に変換
-  // config = JSON.stringify(temp);
-  // alert(config);
+  config = JSON.stringify(temp);
+  alert(config);
 
   // 検索に合致するローカルデータを取得
   const reslocal= await axios.get(`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`,config)
