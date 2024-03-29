@@ -1,12 +1,32 @@
+.locale {
+  overflow: auto;
+}
+
 .memo {
-  margin-top: 20px;
-  font-size: 18px;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 .memo p {
   margin: 0;
 }
 
-.container {
-  padding: 20px;
+.memo:hover {
+  background-color: rgba(250, 252, 220, 0.921);
+  cursor: pointer;
+}
+
+.memo.sample {
+  padding-top: 35px;
+}
+
+.post_date,
+.update_date {
+  color: #6D6D6D;
+  font-size: 14px;
+}
+
+a.post_date {
+  margin-right: 10px;
 }
