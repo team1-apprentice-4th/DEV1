@@ -59,7 +59,7 @@ server.mount_proc '/memos' do |req, res|
       memo_insert.execute(title, solution, 1)
       memo_id = client.last_id
 
-      # memo_tech_categorieテーブルに挿入
+      # memo_tech_categoriesテーブルに挿入
       categories.each do |category|
         tech_category_result = client.query(
           "SELECT tech_category_id FROM tech_categories WHERE tech_category_name = '#{category}'"
@@ -67,7 +67,7 @@ server.mount_proc '/memos' do |req, res|
         tech_category_id = tech_category_result.first['tech_category_id']
 
         client.prepare(
-          "INSERT INTO memo_tech_categorie (memo_id, tech_category_id) VALUES (?, ?)"
+          "INSERT INTO memo_tech_categories (memo_id, tech_category_id) VALUES (?, ?)"
         ).execute(memo_id, tech_category_id)
       end
 
