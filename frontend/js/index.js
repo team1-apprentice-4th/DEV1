@@ -44,7 +44,7 @@ const tags = document.querySelectorAll(".tagelement");
     const searchkey=document.querySelector(".searchkey").value;
     //【ローカル検索】
     // ローカルDBに検索に必要なURLを作成 GETリクエスト
-    　 const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
+    const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
     // ローカルDBの情報を取得
     const reslocal= await axios.get(localURL);
     // 【ここからは高橋さんの実装】
@@ -52,6 +52,7 @@ const tags = document.querySelectorAll(".tagelement");
     let memos_array = [];
     if( 0 < memos.length) {
       for(const memo of memos) {
+        console.log(memo);
         // 投稿日時表示
         const posted_at = document.createTextNode(memo.posted_at.split(' ')[0]);
         let a_posted_at = document.createElement('a');
@@ -72,6 +73,7 @@ const tags = document.querySelectorAll(".tagelement");
         p_title.appendChild(title);
         const div = document.createElement('div');
         div.setAttribute('class', 'memo');
+        div.setAttribute('id', memo.memo_id);
         div.appendChild(a_posted_at);
         div.appendChild(a_updated_at);
         div.appendChild(p_title);
@@ -85,6 +87,13 @@ const tags = document.querySelectorAll(".tagelement");
       container.appendChild(memo);
     });
 
+    // ローカルデータの詳細表示
+    memos_array.forEach(memo => {
+      memo.addEventListener('click', function(e){
+        e.preventDefault();
+        
+      })
+    })
 
     //【Qiita検索】
     const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
