@@ -1,6 +1,12 @@
 tech_category_id,tech_category_name
-1,Python
-2,Ruby
+1,Ruby
+2,SQL
 3,JavaScript
-4,Docker
-5,React
+4,PHP
+5,AWS
+6,HTML
+7,CSS
+8,Rails
+9,Laravel
+10,API
+11,React
