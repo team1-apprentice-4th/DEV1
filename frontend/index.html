@@ -5,11 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/indexstyle.css">
   <link rel="stylesheet" href="css/localdata.css">
+  <link rel="stylesheet" href="css/show.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <title>Tmatter</title>
 </head>
 <body>
+  <div id="mask" class="hidden"></div>
+  <div id="modal" class="hidden">
+    <div class="display"></div>
+    <div class="button">
+      <button id="close_button">閉じる</button>
+    </div>
+  </div>
   <header>
     <div class="title">Tmatter</div>
       <form action="" method="post">
