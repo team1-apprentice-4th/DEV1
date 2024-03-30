@@ -42,9 +42,9 @@ const tags = document.querySelectorAll(".tagelement");
     e.preventDefault();
     // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
-    //【ローカル検索】
+    // 【ローカル検索】
     // ローカルDBに検索に必要なURLを作成 GETリクエスト
-    // const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
+    const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
     // ローカルDBの情報を取得
     // const reslocal= await axios.get(localURL);
     // 【ここからは高橋さんの実装】
