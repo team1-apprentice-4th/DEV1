@@ -40,6 +40,11 @@ const tags = document.querySelectorAll(".tagelement");
   searchbuttom.addEventListener('click',async function(e){
     // ページの更新を防ぐ
     e.preventDefault();
+
+    // 前回の検索結果をクリアする
+    let memos_container = document.querySelector(".container");
+    memos_container.replaceChildren();
+
     // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
     //【ローカル検索】
