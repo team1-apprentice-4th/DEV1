@@ -2,9 +2,9 @@ const postbuttom=document.querySelector("button");
 let checkboxes = document.querySelectorAll("input[name=category]");
 let checkedboxes = document.querySelectorAll("input[name=category]:checked");
 
-// チェックが入ったチェックボックスを取得
-function getcheckedboxes (){
-  // 追加されたチェックボックスを含める
+// チェックが入ったカテゴリー情報を取得
+function get_checked_category (){
+  // 追加されたカテゴリーを含める
   let checkboxes = document.querySelectorAll("input[name=category]");
   let checked_category = [];
   if( 0 < checkboxes.length) {
@@ -14,6 +14,20 @@ function getcheckedboxes (){
       }
     }
     return checked_category;
+  }
+}
+
+// 未解決or解決済みを取得
+function get_checked_resolved (){
+  let checkboxes = document.querySelectorAll("input[name=resolved]");
+  let checked_resolved = [];
+  if( 0 < checkboxes.length) {
+    for(const element of checkboxes) {
+      if(element.checked) {
+        checked_resolved.push(element.id);
+      }
+    }
+    return checked_resolved;
   }
 }
 
@@ -28,9 +42,10 @@ postbuttom.addEventListener('click',async function(e){
   // ローカルDBに検索に必要なクエリを作成
   const temp = {
     "error":error,
-    "category":getcheckedboxes(),
+    "category":get_checked_category(),
     "detail":detail,
-    "solution":solution
+    "solution":solution,
+    "resolved":get_checked_resolved()
   };
   // // JSON形式に変換
   config = JSON.stringify(temp);
