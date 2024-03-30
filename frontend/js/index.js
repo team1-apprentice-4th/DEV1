@@ -42,20 +42,21 @@ const tags = document.querySelectorAll(".tagelement");
     // ページの更新を防ぐ
     e.preventDefault();
 
-    // // 前回の検索結果をクリアする
+    // 前回の検索結果をクリアする
     let memos_container = document.querySelector(".container");
     memos_container.replaceChildren();
 
     // // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
-    
+ 
+
     // // 【ローカル検索】
-    // // ローカルDBに検索に必要なURLを作成 GETリクエスト
+    // ローカルDBに検索に必要なURLを作成 GETリクエスト
     const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
 
-    // // // ローカルDBの情報を取得
+   // ローカルDBの情報を取得
     const reslocal= await axios.get(localURL);
-    alert(reslocal);
+
    
     // // 【ここからは高橋さんの実装】
     const memos = reslocal.data;
@@ -190,6 +191,7 @@ const tags = document.querySelectorAll(".tagelement");
       })
     })
 
+
     //【Qiita検索】
     const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
     const page = 1;
@@ -236,6 +238,6 @@ const tags = document.querySelectorAll(".tagelement");
      qiitaimg.src=qiitauserimg;
      qiitadiv.textContent=qiitatitle;
     };
- 
+
  });
 
