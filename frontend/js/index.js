@@ -42,8 +42,8 @@ const tags = document.querySelectorAll(".tagelement");
     e.preventDefault();
 
     // 前回の検索結果をクリアする
-    let memos_container = document.querySelector(".container");
-    memos_container.replaceChildren();
+    // let memos_container = document.querySelector(".container");
+    // memos_container.replaceChildren();
 
     // 検索ボックスの値を取得
     const searchkey=document.querySelector(".searchkey").value;
