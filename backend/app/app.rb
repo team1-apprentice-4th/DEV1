@@ -30,13 +30,19 @@ server.mount_proc '/memos' do |req, res|
       title, categories = data.values_at('title', 'tag')
 
       # こで得するために必要なSQLを書く
-      statement = client.prepare('SELECT * FROM memos WHERE title_name LIKE ?')
-      results = statement.execute("%#{title}%")
+      statement = client.prepare('SELECT memo_id, title_name, solution, posted_at, last_updated_at, resolved_at FROM memos WHERE title_name LIKE ?')
+      results = statement.execute("%#{title}%").to_a
+      statement = client.prepare('SELECT tech_category_name FROM memo_tech_categories AS mt INNER JOIN tech_categories AS tc ON mt.tech_category_id = tc.tech_category_id WHERE memo_id = ?;')
+      results.each_with_index do |result, i|
+        categories = statement.execute(result['memo_id']).to_a
+        smoothed_tech_categories = categories.map { |category| category['tech_category_name'] }
+        results[i].store('tech_category', smoothed_tech_categories)
+      end
 
       # 結果をJSON形式で返す
       res.status = 200
       res.content_type = 'application/json'
-      res.body = results.to_a.to_json
+      res.body = results.to_json
     rescue StandardError => e
       res.status = 500
       res.content_type = 'application/json'
@@ -55,7 +61,7 @@ server.mount_proc '/memos' do |req, res|
       # トランザクション開始
       client.query('START TRANSACTION')
       # memosテーブルに挿入
-      memo_insert = client.prepare("INSERT INTO memos (title_name, solution, user_id, detail) VALUES (?, ?, ?, ?)")
+      memo_insert = client.prepare('INSERT INTO memos (title_name, solution, user_id, detail) VALUES (?, ?, ?, ?)')
       memo_insert.execute(title, solution, 1, detail)
       memo_id = client.last_id
 
@@ -67,7 +73,7 @@ server.mount_proc '/memos' do |req, res|
         tech_category_id = tech_category_result.first['tech_category_id']
 
         client.prepare(
-          "INSERT INTO memo_tech_categories (memo_id, tech_category_id) VALUES (?, ?)"
+          'INSERT INTO memo_tech_categories (memo_id, tech_category_id) VALUES (?, ?)'
         ).execute(memo_id, tech_category_id)
       end
 
