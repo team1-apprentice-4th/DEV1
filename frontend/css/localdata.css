@@ -2,6 +2,10 @@
   overflow: auto;
 }
 
+.container {
+  padding-top: 30px;
+}
+
 .memo {
   font-size: 20px;
   padding: 10px 20px;
@@ -15,10 +19,6 @@
 .memo:hover {
   background-color: rgba(250, 252, 220, 0.921);
   cursor: pointer;
-}
-
-.memo.sample {
-  padding-top: 35px;
 }
 
 .post_date,
