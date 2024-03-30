@@ -90,7 +90,7 @@ label, input[type='checkbox'] {
   cursor: pointer;
 }
 
-.finish {
+.resolved {
   display: none;
 }
 
