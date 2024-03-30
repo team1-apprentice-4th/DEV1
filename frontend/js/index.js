@@ -50,9 +50,10 @@ const tags = document.querySelectorAll(".tagelement");
     // 【ローカル検索】
     // ローカルDBに検索に必要なURLを作成 GETリクエスト
     const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
-    // ローカルDBの情報を取得
+
+    // // ローカルDBの情報を取得
     const reslocal= await axios.get(localURL);
-    // 【ここからは高橋さんの実装】
+    // // 【ここからは高橋さんの実装】
     const memos = reslocal.data;
     let memos_array = [];
     if( 0 < memos.length) {
@@ -191,7 +192,7 @@ const tags = document.querySelectorAll(".tagelement");
     const perPage = 20;
     alert(queryParam);
     const resqiita = await axios.get(`https://qiita.com/api/v2/items?query=${queryParam}&page=${page}&per_page=${perPage}`);
-    
+    console.log(resqiita);
     //　検索結果の表示
     for(let qiitadata of resqiita.data){
       const qiitalist=document.querySelector(".qiitalist");
