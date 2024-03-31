@@ -66,7 +66,7 @@ MYSQL_DATABASE=mydatabase
 ```bash
 docker compose up --build
 ```
-問題なく起動したら「 lodalhost:4567 」をChromeで開いて「Hello World」が表示されたらコンテナ起動です。
+問題なく起動したら「 localhost:4567 」をChromeで開いて「Hello World」が表示されたらコンテナ起動です。
 
 次にSQLのテーブルが作成されているか確認します。まずはコンテナ内のMySQLに接続します。
 ```bash

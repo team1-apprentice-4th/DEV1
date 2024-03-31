@@ -1,5 +1,8 @@
+
 const searchbuttom=document.querySelector(".searchimg");
 const tags = document.querySelectorAll(".tagelement");
+const history = document.querySelector(".history");
+
 
 // タグをクリックした際の操作
 let times = {};
@@ -115,6 +118,7 @@ searchbuttom.addEventListener('click',async function(e){
           let div_posted_at = document.createElement('div'); // div要素を使用
           div_posted_at.classList.add('post_date');
           div_posted_at.appendChild(posted_at);
+
 
           // 更新日時の表示
           const updated_at = document.createTextNode(element.last_updated_at.split(' ')[0] + '更新');
@@ -325,7 +329,6 @@ searchbuttom.addEventListener('click',async function(e){
 
       })
     })
-
   })
 
   //【Qiita検索】
