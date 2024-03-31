@@ -79,12 +79,11 @@ server.mount_proc '/memos' do |req, res|
 
       request_method = data['method']
       if request_method == 'PUT'
-        title, detail, solution, resolved = data.values_at('title', 'detail', 'solution', 'resolved')
-        memo_id = data['memo_id']
+        memo_id, title, detail, solution, resolved = data.values_at('memo_id', 'title', 'detail', 'solution', 'resolved')
 
         # memosテーブルを更新
         statement = client.prepare("UPDATE memos SET title_name = ?, detail = ?, solution = ?, resolved = ? WHERE memo_id = ?")
-        statement.execute(title, detail, solution, resolved, memo_id)
+        statement.execute(title, detail, solution, memo_id, resolved)
 
         res.status = 200
         res.content_type = 'application/json'
@@ -151,6 +150,7 @@ server.mount_proc '/memos' do |req, res|
     res.body = { error: 'Invalid request method' }.to_json
   end
 end
+
 
 # 【3/31】追記
 server.mount_proc '/history' do |req, res|

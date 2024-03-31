@@ -75,17 +75,6 @@ searchbuttom.addEventListener('click',async function(e){
       a_updated_at.classList.add('update_date');
       a_updated_at.appendChild(updated_at);
       a_updated_at.appendChild(update_stamp);
-      // 技術カテゴリー表示
-      const tech_categories = [];
-      if (0 < memo.tech_category.length) {
-        memo.tech_category.forEach(category => {
-          const tech_category = document.createTextNode(category);
-          let a_tech_category = document.createElement('a');
-          a_tech_category.classList.add('tech_category');
-          a_tech_category.appendChild(tech_category);
-          tech_categories.push(a_tech_category);
-        })
-      }
       // タイトル表示
       const title = document.createTextNode(memo.title_name);
       let p_title = document.createElement('p');
@@ -97,9 +86,6 @@ searchbuttom.addEventListener('click',async function(e){
       // データ挿入
       div.appendChild(a_posted_at);
       div.appendChild(a_updated_at);
-      for(let i = 0; i < tech_categories.length ;i++){
-        div.appendChild(tech_categories[i]);
-      }
       div.appendChild(p_title);
       memos_array.push(div);
     }
@@ -147,21 +133,6 @@ searchbuttom.addEventListener('click',async function(e){
           dateContainer.appendChild(div_posted_at);
           dateContainer.appendChild(div_updated_at);
 
-          //技術カテゴリー表示
-          const tech_categories = [];
-          if (0 < element.tech_category.length) {
-            element.tech_category.forEach(category => {
-              const tech_category = document.createTextNode(category);
-              let a_tech_category = document.createElement('a');
-              a_tech_category.classList.add('tech_category');
-              a_tech_category.appendChild(tech_category);
-              tech_categories.push(a_tech_category);
-            })
-          }
-          for (let i = 0; i < tech_categories.length; i++) {
-            dateContainer.appendChild(tech_categories[i])
-          }
-
           // 編集ボタンの追加
           let editButton = document.createElement('div');
           editButton.classList.add('edit_modal');
@@ -201,25 +172,6 @@ searchbuttom.addEventListener('click',async function(e){
           let p_solution = document.createElement('p');
           p_solution.appendChild(solution);
 
-          // 「未解決」と「解決済み」のラジオボタンを追加
-          let resolvedDiv = document.createElement('div');
-          resolvedDiv.classList.add('resolved');
-
-          let labelUnsolved = document.createElement('label');
-          labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved"> 未解決';
-          let labelResolved = document.createElement('label');
-          labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved"> 解決済み';
-
-          // 既存の状態に基づいてラジオボタンをチェック
-          if (element.resolved) {
-              labelResolved.querySelector('input').checked = true;
-          } else {
-              labelUnsolved.querySelector('input').checked = true;
-          }
-
-          resolvedDiv.appendChild(labelUnsolved);
-          resolvedDiv.appendChild(labelResolved);
-
           // メモごとのクラスとIDを付与
           const div = document.createElement('div');
           div.setAttribute('class', 'modal_memo');
@@ -230,8 +182,6 @@ searchbuttom.addEventListener('click',async function(e){
           div.appendChild(p_title);
           div.appendChild(p_detail);
           div.appendChild(p_solution);
-          // 編集フォームに追加
-          div.appendChild(resolvedDiv);
 
           // モーダルウインドウにメモを追加
           const display = document.querySelector('.display');
@@ -259,32 +209,43 @@ searchbuttom.addEventListener('click',async function(e){
             saveButton.textContent = '保存';
             div.appendChild(saveButton);
 
+            // 「未解決」と「解決済み」のラジオボタンを追加
+            let resolvedDiv = document.createElement('div');
+            resolvedDiv.classList.add('resolved');
+
+            let labelUnsolved = document.createElement('label');
+            labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved"> 未解決';
+            let labelResolved = document.createElement('label');
+            labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved"> 解決済み';
+
+            // 既存の状態に基づいてラジオボタンをチェック
+            if (element.resolved) {
+                labelResolved.querySelector('input').checked = true;
+            } else {
+                labelUnsolved.querySelector('input').checked = true;
+            }
+
+            resolvedDiv.appendChild(labelUnsolved);
+            resolvedDiv.appendChild(labelResolved);
+
+            // 編集フォームに追加
+            div.appendChild(resolvedDiv);
+
             console.log(element.resolved)
 
             // 保存ボタンのクリックイベントリスナー
             saveButton.addEventListener('click', async function() {
-              function get_checked_resolved() {
-                let radioButtons = document.querySelectorAll("input[name='resolved']");
-                for (const radioButton of radioButtons) {
-                  if (radioButton.checked) {
-                    return radioButton.id === "unsolved" ? 0 : 1;
-                  }
-                }
-                return null;
-              }
               const temp = {
-                "memo_id": element.memo_id,
-                "method": 'PUT',
-                "title": inputTitle.value,
-                "detail": inputDetail.value,
-                "solution": inputSolution.value,
-                "resolved": get_checked_resolved()
+                memo_id: element.memo_id,
+                method: 'PUT',
+                title: inputTitle.value,
+                detail: inputDetail.value,
+                solution: inputSolution.value,
               };
 
               try {
                 // PUTリクエストでデータを送信（URLの末尾にmemo_idを付加）
                 const response = await axios.post('http://localhost:4567/memos', JSON.stringify(temp));
-
 
                 // 保存が完了したらモーダルを閉じてリストをクリア
                 document.getElementById('mask').classList.add('hidden');
@@ -310,19 +271,9 @@ searchbuttom.addEventListener('click',async function(e){
 
             if (isConfirmed) {
               // OKがクリックされた場合、APIを実行して削除処理を行う
-              function get_checked_resolved() {
-                let radioButtons = document.querySelectorAll("input[name='resolved']");
-                for (const radioButton of radioButtons) {
-                  if (radioButton.checked) {
-                    return radioButton.id === "unsolved" ? 0 : 1;
-                  }
-                }
-                return null;
-              }
               const temp = {
-                "memo_id": element.memo_id,
-                "method": 'DELETE',
-                "resolved": get_checked_resolved()
+                memo_id: element.memo_id,
+                method: 'DELETE'
               };
               axios.post('http://localhost:4567/memos', JSON.stringify(temp))
                 .then(response => {
@@ -385,7 +336,7 @@ searchbuttom.addEventListener('click',async function(e){
   const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
   const page = 1;
   const perPage = 20;
-
+  
   const resqiita = await axios.get(`https://qiita.com/api/v2/items?query=${queryParam}&page=${page}&per_page=${perPage}`);
 
   //　検索結果の表示
