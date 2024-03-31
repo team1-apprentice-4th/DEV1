@@ -3,6 +3,15 @@ require 'mysql2'
 require 'yaml'
 require 'json'
 
+module WEBrick
+  module HTTPServlet
+    class ProcHandler < AbstractServlet
+      alias do_PUT    do_GET
+      alias do_DELETE do_GET
+    end
+  end
+end
+
 # YAMLファイルからデータベースの接続情報を取得
 config_path = '/usr/src/app/config/database.yml'
 db_config = YAML.load_file(config_path)['development']
@@ -10,18 +19,13 @@ db_config = YAML.load_file(config_path)['development']
 # サーバーをポート4567に立てる
 server = WEBrick::HTTPServer.new(Port: 4567)
 
-# GETリクエストに対してHello Worldを返す
-server.mount_proc '/' do |_, res|
-  res.body = 'Hello World'
-end
-
 # POSTリクエストを処理する
 server.mount_proc '/memos' do |req, res|
   # MySQLデータベースに接続
   client = Mysql2::Client.new(db_config)
   # データベースを選択
   client.query('USE Tmatter')
-  res.header['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
+  res.header['Access-Control-Allow-Origin'] = '*'
 
   if req.request_method == 'GET'
     begin
@@ -90,7 +94,42 @@ server.mount_proc '/memos' do |req, res|
       res.content_type = 'application/json'
       res.body = { error: e.message }.to_json
     end
+  elsif req.request_method == 'PUT'
+    begin
+      data = JSON.parse(req.body)
+      title, detail, solution = data.values_at('title', 'detail', 'solution')
+      memo_id = req.path.split('/').last
 
+      # memosテーブルを更新
+      statement = client.prepare("UPDATE memos SET title_name = ?, detail = ?, solution = ? WHERE memo_id = ?")
+      statement.execute(title, detail, solution, memo_id)
+
+      res.status = 200
+      res.content_type = 'application/json'
+      res.body = { success: 'Memo updated successfully!', memo_id: memo_id }.to_json
+    rescue StandardError => e
+      res.status = 500
+      res.content_type = 'application/json'
+      res.body = { error: e.message }.to_json
+    end
+  elsif req.request_method == 'DELETE'
+    begin
+      memo_id = req.path.split('/').last
+
+      # memo_tech_categoriesテーブルから該当するメモIDを持つレコードを削除
+      client.prepare("DELETE FROM memo_tech_categories WHERE memo_id = ?").execute(memo_id)
+
+      # memosテーブルから指定されたIDのメモを削除
+      client.prepare("DELETE FROM memos WHERE memo_id = ?").execute(memo_id)
+
+      res.status = 200
+      res.content_type = 'application/json'
+      res.body = { success: "Memo with ID #{memo_id} deleted successfully." }.to_json
+    rescue StandardError => e
+      res.status = 500
+      res.content_type = 'application/json'
+      res.body = { error: e.message }.to_json
+    end
   else
     res.status = 400
     res.content_type = 'application/json'
