@@ -96,7 +96,7 @@ header{
   height: 100%;
   min-width: 5%;
   border-style:none ;
-  background-color: rgb(158, 250, 255);
+  background-color: rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }  
 

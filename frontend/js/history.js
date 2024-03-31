@@ -1,14 +1,19 @@
 async function gethistory(){ 
+  
     // 前回の検索結果をクリアする
     let memos_container = document.querySelector(".container");
     memos_container.replaceChildren();
-    // // 【ローカル検索】
+    // 【ローカル検索】
+    
     // ローカルDBに検索に必要なURLを作成 GETリクエスト
-    const historyURL=`http://localhost:4567/memos`
-   // ローカルDBの情報を取得
+    const historyURL=`http://localhost:4567/history`
+    
+    
+    // ローカルDBの情報を取得
     const reslocal= await axios.get(historyURL);
-
-   // 【ここからは高橋さんの実装】
+    console.log(reslocal);
+   
+    //【ここからは高橋さんの実装】
     const memos = reslocal.data;
     let memos_array = [];
     if( 0 < memos.length) {
@@ -139,6 +144,7 @@ async function gethistory(){
         })
       })
     });
+    
 }
 
 gethistory()
