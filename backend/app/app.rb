@@ -31,16 +31,40 @@ server.mount_proc '/memos' do |req, res|
     begin
       # リクエストクエリパラメタからキーを取得
       data = req.query
-      title, categories = data.values_at('title', 'tag')
+      title, tag_categories = data.values_at('title', 'tag')
 
       # こで得するために必要なSQLを書く
-      statement = client.prepare('SELECT * FROM memos WHERE title_name LIKE ?')
-      results = statement.execute("%#{title}%")
+      statement = client.prepare('SELECT memo_id, title_name, solution, posted_at, last_updated_at, resolved_at FROM memos WHERE title_name LIKE ?')
+      results = statement.execute("%#{title}%").to_a
+
+      category_check_result = []
+      statement = client.prepare('SELECT tech_category_name FROM memo_tech_categories AS mt INNER JOIN tech_categories AS tc ON mt.tech_category_id = tc.tech_category_id WHERE memo_id = ?;')
+      cloned_results = results.clone
+      cloned_results.each_with_index do |_result, i|
+        categories = statement.execute(results[i]['memo_id']).to_a
+        smoothed_tech_categories = categories.map { |category| category['tech_category_name'] }
+
+        # タグ無しならタイトルとの部分一致検索のみ
+        if tag_categories.nil?
+          results[i].store('tech_category', smoothed_tech_categories)
+          next
+        end
+
+        if smoothed_tech_categories.any? { |category| tag_categories.include?(category) }
+          results[i].store('tech_category', smoothed_tech_categories)
+          category_check_result.push(false)
+        else
+          category_check_result.push(true)
+        end
+      end
+
+      # カテゴリに含まれない結果は削除
+      results.delete_if.with_index { |_, i| category_check_result[i] }
 
       # 結果をJSON形式で返す
       res.status = 200
       res.content_type = 'application/json'
-      res.body = results.to_a.to_json
+      res.body = results.to_json
     rescue StandardError => e
       res.status = 500
       res.content_type = 'application/json'
@@ -130,31 +154,31 @@ end
 
 # 【3/31】追記
 server.mount_proc '/history' do |req, res|
-  begin
-    # MySQLデータベースに接続
-    client = Mysql2::Client.new(db_config)
-    # データベースを選択
-    client.query('USE Tmatter')
-    res.header['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
+begin
+  # MySQLデータベースに接続
+  client = Mysql2::Client.new(db_config)
+  # データベースを選択
+  client.query('USE Tmatter')
+  res.header['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
 
-    if req.request_method == 'GET'
-        # ここで得するために必要なSQLを書く【解決までに時間がかかったもの】
-        statement = client.prepare('SELECT memo_id, title_name, solution, posted_at,last_updated_at, resolved_at FROM memos
-        ORDER BY last_updated_at - posted_at  DESC')
-        results = statement.execute.to_a
-
-        # 結果をJSON形式で返す
-        res.status = 200
-        res.content_type = 'application/json'
-        res.body = results.to_json
-
-      end
-    rescue StandardError => e
-        res.status = 500
-        res.content_type = 'application/json'
-        res.body = { error: e.message }.to_json
-    end
-  end
+  if req.request_method == 'GET'
+      # ここで得するために必要なSQLを書く【解決までに時間がかかったもの】
+      statement = client.prepare('SELECT memo_id, title_name, solution, posted_at,last_updated_at, resolved_at FROM memos 
+      ORDER BY last_updated_at - posted_at  DESC')
+      results = statement.execute.to_a
+    
+      # 結果をJSON形式で返す
+      res.status = 200
+      res.content_type = 'application/json'
+      res.body = results.to_json
+      
+    end  
+  rescue StandardError => e
+      res.status = 500
+      res.content_type = 'application/json'
+      res.body = { error: e.message }.to_json
+  end  
+end
 
 trap('INT') { server.shutdown }
 

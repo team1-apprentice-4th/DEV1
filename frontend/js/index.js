@@ -49,9 +49,11 @@ searchbuttom.addEventListener('click',async function(e){
 
   // 検索ボックスの値を取得
   const searchkey=document.querySelector(".searchkey").value;
+  const searchoption=document.getElementById("optionSelect").value;
   //【ローカル検索】
   // ローカルDBに検索に必要なURLを作成 GETリクエスト
-  const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
+  const localURL = `http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}&option=${searchoption}`;
+
   // ローカルDBの情報を取得
   const reslocal= await axios.get(localURL);
   // 【ここからは高橋さんの実装】
@@ -383,6 +385,7 @@ searchbuttom.addEventListener('click',async function(e){
   const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
   const page = 1;
   const perPage = 20;
+
   const resqiita = await axios.get(`https://qiita.com/api/v2/items?query=${queryParam}&page=${page}&per_page=${perPage}`);
 
   //　検索結果の表示
