@@ -1,19 +1,21 @@
 const searchbuttom=document.querySelector(".searchimg");
 const tags = document.querySelectorAll(".tagelement");
+const history = document.querySelector(".history");
 
-// タグをクリックした際の操作
-let times = {};
-tags.forEach(tag => {
-  times[tag.id] = 0;
-  tag.addEventListener('click', () => {
-    if (times[tag.id] % 2 == 0) {
-      tag.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-    } else {
-      tag.style.backgroundColor = 'rgb(158, 250, 255)';
-    }
-    times[tag.id]++;
+
+  // タグをクリックした際の操作
+  let times = {};
+  tags.forEach(tag => {
+    times[tag.id] = 0;
+    tag.addEventListener('click', () => {
+      if (times[tag.id] % 2 == 0) {
+        tag.style.backgroundColor = 'rgb(158, 250, 255)';
+      } else {
+        tag.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+      }
+      times[tag.id]++;
+    });
   });
-});
 
 // 検索をかけるtagの取得
 function gettags(times){
@@ -115,6 +117,7 @@ searchbuttom.addEventListener('click',async function(e){
           let div_posted_at = document.createElement('div'); // div要素を使用
           div_posted_at.classList.add('post_date');
           div_posted_at.appendChild(posted_at);
+
 
           // 更新日時の表示
           const updated_at = document.createTextNode(element.last_updated_at.split(' ')[0] + '更新');
@@ -345,14 +348,12 @@ searchbuttom.addEventListener('click',async function(e){
 
       })
     })
-
   })
 
   //【Qiita検索】
   const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
   const page = 1;
   const perPage = 20;
-  alert(queryParam);
   const resqiita = await axios.get(`https://qiita.com/api/v2/items?query=${queryParam}&page=${page}&per_page=${perPage}`);
 
   //　検索結果の表示

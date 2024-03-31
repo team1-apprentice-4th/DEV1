@@ -1,0 +1,86 @@
+.modal_upper_section {
+  display: flex;
+  justify-content: space-between;
+  /* width: 80%; */
+  /* margin-left: 10%; */
+}
+
+.date_container {
+  display: flex;
+}
+
+.modal_memo {
+  padding: 0 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.data_update_container {
+  display: flex;
+}
+
+.modal_lower_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.modal_memo input {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.modal_memo textarea {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.delete_modal {
+  margin-left: 10px;
+}
+
+.button {
+  display: none;
+  margin-top: 15px;
+}
+
+.edit_modal,
+.delete_modal {
+  background-color: #136DBE;
+  padding: 5px;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #28355e;
+  cursor: pointer;
+}
+
+i {
+  margin-left: 2px;
+}
+
+.edit_modal:hover,
+.delete_modal:hover {
+  opacity: 0.8;
+}
+
+.edit_modal:active,
+.delete_modal:active {
+  box-shadow: none;
+  transform: translateY(5px);
+}
+
+.post_date {
+  margin-right: 10px;
+}
+
+input,
+textarea {
+  padding: 5px;
+}
+
+.resolved {
+  display: flex;
+}

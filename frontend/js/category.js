@@ -8,10 +8,10 @@ addCategory.addEventListener('click', function(event){
   // フォームに入力された値を取得
   const additional = document.getElementById('additional');
   const additional_category = additional.value;
-  
+
   // フォームに入力された値をテキストノードに格納
   let new_category = document.createTextNode(additional_category);
-  
+
   // カテゴリー欄の最後尾にチェックボックスの要素ノードを用意
   const fieldset = document.querySelector('fieldset');
   let label = document.createElement('label');
@@ -20,7 +20,7 @@ addCategory.addEventListener('click', function(event){
   input.setAttribute("type", "checkbox");
   input.setAttribute("name", "category");
   input.setAttribute("id", new_category.textContent);
-  
+
   // カテゴリー欄の最後尾に追加のチェックボックスを設置
   label.appendChild(input);
   label.appendChild(new_category);

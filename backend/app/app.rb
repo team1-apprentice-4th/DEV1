@@ -128,6 +128,34 @@ server.mount_proc '/memos' do |req, res|
   end
 end
 
+# 【3/31】追記
+server.mount_proc '/history' do |req, res|
+  begin
+    # MySQLデータベースに接続
+    client = Mysql2::Client.new(db_config)
+    # データベースを選択
+    client.query('USE Tmatter')
+    res.header['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
+
+    if req.request_method == 'GET'
+        # ここで得するために必要なSQLを書く【解決までに時間がかかったもの】
+        statement = client.prepare('SELECT memo_id, title_name, solution, posted_at,last_updated_at, resolved_at FROM memos
+        ORDER BY last_updated_at - posted_at  DESC')
+        results = statement.execute.to_a
+
+        # 結果をJSON形式で返す
+        res.status = 200
+        res.content_type = 'application/json'
+        res.body = results.to_json
+
+      end
+    rescue StandardError => e
+        res.status = 500
+        res.content_type = 'application/json'
+        res.body = { error: e.message }.to_json
+    end
+  end
+
 trap('INT') { server.shutdown }
 
 server.start

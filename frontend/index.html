@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/indexstyle.css">
+  <link rel="stylesheet" href="css/indexstyle2.css">
   <link rel="stylesheet" href="css/localdata.css">
   <link rel="stylesheet" href="css/show.css">
+  <link rel="stylesheet" href="css/edit.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <title>Tmatter</title>
@@ -18,23 +19,32 @@
       <button id="close_button">閉じる</button>
     </div>
   </div>
+
   <header>
     <div class="title">Tmatter</div>
-      <form action="" method="post">
-        <div class="search">
+      <div class="search">
           <div class="searhclog">検索</div>
           <div class="searchtext"><input class="searchkey" type="text"></div>
           <div class="searchimg">
             <button><img src="source\検索.png" alt=""></button>
           </div>
-        </div>
+       </div>
         <div class="tag">
-          <input id="Ruby" class="tagelement"   type="button" value="Ruby" />
-          <input id="Python" class="tagelement" type="button" value="Python" >
-          <input id="SQL" class="tagelement"    type="button" value="SQL" />
+          <input id="Ruby" class="tagelement"   type="button" value="#Ruby" />
+          <input id="Python" class="tagelement" type="button" value="#Python" >
+          <input id="SQL" class="tagelement"    type="button" value="#SQL"/>
+          <input id="JavaScript" class="tagelement"   type="button" value="#JavaScript"/>
+          <input id="PHP" class="tagelement" type="button" value="#PHP" >
+          <input id="AWS" class="tagelement"    type="button" value="#AWS"/>
+          <input id="HTML" class="tagelement"   type="button" value="#HTML"/>
+          <input id="CSS" class="tagelement" type="button" value="#CSS" >
+          <input id="Rails" class="tagelement"    type="button" value="#Railes"/>
+          <input id="Laravel" class="tagelement"   type="button" value="#Laravel"/>
+          <input id="API" class="tagelement" type="button" value="#API" >
+          <input id="React" class="tagelement"    type="button" value="#React"/>
         </div>
-      </form>
-      <a class="save" href="./post.html">学習内容を保存</a>
+        <a class="save" href="./post.html">Tmatterに保存</a>
+        <a class="history" href="./history.html">Tmatterの学習履歴</a>
   </header>
   <main>
 
@@ -50,24 +60,19 @@
 
     <div class="qiita">
       <p class="qiitalog">Qiita情報</p>
-
       <ul class="qiitalist">
         <li class="qiitaelement">
-          <a class="qiitaelement_a" href="https://qiita.com/ogatango/items/63db39c492f55f9b2972" target="_blank">
 
+          <a class="qiitaelement_a" href="https://qiita.com/ogatango/items/63db39c492f55f9b2972" target="_blank">
             <img
             class="qiitaelement_a_img"
             src="https://qiita-user-profile-images.imgix.net/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fqiita-image-store%2F0%2F415560%2F6e68f31bac99a69151a60a7cac0ccbbb34051a01%2Fx_large.png%3F1664001454?ixlib=rb-4.0.0&auto=compress%2Cformat&lossless=0&w=128&s=a3e1ba65658d3ed090bd27403c5c2b90" alt="" >
 
             <div class="qiitaTitle">科学的根拠に基づく最高の勉強法 読書感想文</div>
 
-            <p>Python</p>
           </a >
         </li>
-
-
       </ul>
-
     </div>
   </main>
 

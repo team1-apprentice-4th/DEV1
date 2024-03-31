@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css\show.css">
+  <link rel="stylesheet" href="css\history.css">
+  <link rel="stylesheet" href="css\localdata.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <title>Tmatterの学習履歴</title>
+</head>
+<body>
+  <div id="mask" class="hidden"></div>
+  <div id="modal" class="hidden">
+    <div class="display"></div>
+    <div class="button">
+      <button id="close_button">閉じる</button>
+    </div>
+  </div>
+
+  <a class="save" href="./index.html" style="font-weight: bolder;">←戻る</a>
+  <main>
+    <div class="locale">
+      <p class="localelog">ローカル情報</p>
+      <div class="container">
+        <div class="memo sample">
+          <a class="post_date">2024-03-24投稿</a><a class="update_date">2024-03-27更新</a>
+          <p>ERROR 1054 (42S22): Unknown column 'views' in 'field list'</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="js\history.js"></script>
+</body>
+</html>
