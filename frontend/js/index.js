@@ -59,6 +59,7 @@ searchbuttom.addEventListener('click',async function(e){
   let memos_array = [];
   if( 0 < memos.length) {
     for(const memo of memos) {
+      console.log(memo);
       // 投稿日時表示
       const posted_at = document.createTextNode(memo.posted_at.split(' ')[0]);
       let a_posted_at = document.createElement('a');
@@ -202,19 +203,20 @@ searchbuttom.addEventListener('click',async function(e){
             inputSolution.value = element.solution;
             p_solution.replaceWith(inputSolution);
 
-            // 「保存」ボタンを追加して、変更を保存する処理を実装
-            let saveButton = document.createElement('button');
-            saveButton.textContent = '保存';
-            div.appendChild(saveButton);
-
             // 「未解決」と「解決済み」のラジオボタンを追加
             let resolvedDiv = document.createElement('div');
             resolvedDiv.classList.add('resolved');
 
             let labelUnsolved = document.createElement('label');
-            labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved"> 未解決';
+            labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved">';
+            const span_unsolved = document.createElement('span'); // span要素を作成
+            span_unsolved.textContent = '未解決';
+            labelUnsolved.appendChild(span_unsolved);
             let labelResolved = document.createElement('label');
-            labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved"> 解決済み';
+            labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved">';
+            const span_resolved = document.createElement('span'); // span要素を作成
+            span_resolved.textContent = '解決済み';
+            labelResolved.appendChild(span_resolved);
 
             // 既存の状態に基づいてラジオボタンをチェック
             if (element.resolved) {
@@ -228,6 +230,11 @@ searchbuttom.addEventListener('click',async function(e){
 
             // 編集フォームに追加
             div.appendChild(resolvedDiv);
+
+            // 「保存」ボタンを追加して、変更を保存する処理を実装
+            let saveButton = document.createElement('button');
+            saveButton.textContent = '保存';
+            div.appendChild(saveButton);
 
             console.log(element.resolved)
 
