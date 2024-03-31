@@ -49,9 +49,11 @@ searchbuttom.addEventListener('click',async function(e){
 
   // 検索ボックスの値を取得
   const searchkey=document.querySelector(".searchkey").value;
+  const searchoption=document.getElementById("optionSelect").value;
   //【ローカル検索】
   // ローカルDBに検索に必要なURLを作成 GETリクエスト
-  const localURL=`http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}`
+  const localURL = `http://localhost:4567/memos?title=${searchkey}&tag=${gettags(times)}&option=${searchoption}`;
+
   // ローカルDBの情報を取得
   const reslocal= await axios.get(localURL);
   // 【ここからは高橋さんの実装】
@@ -170,25 +172,6 @@ searchbuttom.addEventListener('click',async function(e){
           let p_solution = document.createElement('p');
           p_solution.appendChild(solution);
 
-          // 「未解決」と「解決済み」のラジオボタンを追加
-          let resolvedDiv = document.createElement('div');
-          resolvedDiv.classList.add('resolved');
-
-          let labelUnsolved = document.createElement('label');
-          labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved"> 未解決';
-          let labelResolved = document.createElement('label');
-          labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved"> 解決済み';
-
-          // 既存の状態に基づいてラジオボタンをチェック
-          if (element.resolved) {
-              labelResolved.querySelector('input').checked = true;
-          } else {
-              labelUnsolved.querySelector('input').checked = true;
-          }
-
-          resolvedDiv.appendChild(labelUnsolved);
-          resolvedDiv.appendChild(labelResolved);
-
           // メモごとのクラスとIDを付与
           const div = document.createElement('div');
           div.setAttribute('class', 'modal_memo');
@@ -199,8 +182,6 @@ searchbuttom.addEventListener('click',async function(e){
           div.appendChild(p_title);
           div.appendChild(p_detail);
           div.appendChild(p_solution);
-          // 編集フォームに追加
-          div.appendChild(resolvedDiv);
 
           // モーダルウインドウにメモを追加
           const display = document.querySelector('.display');
@@ -228,32 +209,43 @@ searchbuttom.addEventListener('click',async function(e){
             saveButton.textContent = '保存';
             div.appendChild(saveButton);
 
+            // 「未解決」と「解決済み」のラジオボタンを追加
+            let resolvedDiv = document.createElement('div');
+            resolvedDiv.classList.add('resolved');
+
+            let labelUnsolved = document.createElement('label');
+            labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved"> 未解決';
+            let labelResolved = document.createElement('label');
+            labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved"> 解決済み';
+
+            // 既存の状態に基づいてラジオボタンをチェック
+            if (element.resolved) {
+                labelResolved.querySelector('input').checked = true;
+            } else {
+                labelUnsolved.querySelector('input').checked = true;
+            }
+
+            resolvedDiv.appendChild(labelUnsolved);
+            resolvedDiv.appendChild(labelResolved);
+
+            // 編集フォームに追加
+            div.appendChild(resolvedDiv);
+
             console.log(element.resolved)
 
             // 保存ボタンのクリックイベントリスナー
             saveButton.addEventListener('click', async function() {
-              function get_checked_resolved() {
-                let radioButtons = document.querySelectorAll("input[name='resolved']");
-                for (const radioButton of radioButtons) {
-                  if (radioButton.checked) {
-                    return radioButton.id === "unsolved" ? 0 : 1;
-                  }
-                }
-                return null;
-              }
               const temp = {
-                "memo_id": element.memo_id,
-                "method": 'PUT',
-                "title": inputTitle.value,
-                "detail": inputDetail.value,
-                "solution": inputSolution.value,
-                "resolved": get_checked_resolved()
+                memo_id: element.memo_id,
+                method: 'PUT',
+                title: inputTitle.value,
+                detail: inputDetail.value,
+                solution: inputSolution.value,
               };
 
               try {
                 // PUTリクエストでデータを送信（URLの末尾にmemo_idを付加）
                 const response = await axios.post('http://localhost:4567/memos', JSON.stringify(temp));
-
 
                 // 保存が完了したらモーダルを閉じてリストをクリア
                 document.getElementById('mask').classList.add('hidden');
@@ -279,19 +271,9 @@ searchbuttom.addEventListener('click',async function(e){
 
             if (isConfirmed) {
               // OKがクリックされた場合、APIを実行して削除処理を行う
-              function get_checked_resolved() {
-                let radioButtons = document.querySelectorAll("input[name='resolved']");
-                for (const radioButton of radioButtons) {
-                  if (radioButton.checked) {
-                    return radioButton.id === "unsolved" ? 0 : 1;
-                  }
-                }
-                return null;
-              }
               const temp = {
-                "memo_id": element.memo_id,
-                "method": 'DELETE',
-                "resolved": get_checked_resolved()
+                memo_id: element.memo_id,
+                method: 'DELETE'
               };
               axios.post('http://localhost:4567/memos', JSON.stringify(temp))
                 .then(response => {
@@ -354,6 +336,7 @@ searchbuttom.addEventListener('click',async function(e){
   const queryParam = `title:${searchkey} tag:${qiitagettags(times)}`;
   const page = 1;
   const perPage = 20;
+  
   const resqiita = await axios.get(`https://qiita.com/api/v2/items?query=${queryParam}&page=${page}&per_page=${perPage}`);
 
   //　検索結果の表示
