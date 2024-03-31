@@ -11,6 +11,7 @@ function get_checked_category (){
     for(const element of checkboxes) {
       if(element.checked) {
         checked_category.push(element.id);
+        console.log(element.id);
       }
     }
     return checked_category;
