@@ -76,25 +76,10 @@ server.mount_proc '/memos' do |req, res|
     begin
       # リクエストクエリパラメタからキーを取得
       data = JSON.parse(req.body)
-<<<<<<< HEAD
-=======
-      title, categories, detail, solution = data.values_at('error', 'category', 'detail', 'solution')
-      client = Mysql2::Client.new(db_config)
-      # データベースを選択
-      client.query('USE Tmatter')
-      # トランザクション開始
-      client.query('START TRANSACTION')
-      # memosテーブルに挿入
-      memo_insert = client.prepare('INSERT INTO memos (title_name, solution, user_id, detail) VALUES (?, ?, ?, ?)')
-      memo_insert.execute(title, solution, 1, detail)
-      memo_id = client.last_id
->>>>>>> develop
 
       request_method = data['method']
       if request_method == 'PUT'
         memo_id, title, detail, solution, resolved = data.values_at('memo_id', 'title', 'detail', 'solution', 'resolved')
-
-<<<<<<< HEAD
         # memosテーブルを更新
         statement = client.prepare("UPDATE memos SET title_name = ?, detail = ?, solution = ?, resolved = ? WHERE memo_id = ?")
         statement.execute(title, detail, solution, memo_id, resolved)
@@ -150,11 +135,6 @@ server.mount_proc '/memos' do |req, res|
           received_detail: detail,
           received_solution: solution
         }.to_json
-=======
-        client.prepare(
-          'INSERT INTO memo_tech_categories (memo_id, tech_category_id) VALUES (?, ?)'
-        ).execute(memo_id, tech_category_id)
->>>>>>> develop
       end
     rescue StandardError => e
       # エラー時の処理
