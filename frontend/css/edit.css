@@ -82,5 +82,21 @@ textarea {
 }
 
 .resolved {
-  display: flex;
+  display: flex; /* flexコンテナとして設定 */
+  justify-content: space-evenly; /* label要素を均等に配置 */
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.span {
+  display: inline;
+}
+
+button {
+  display: block;
+  margin: 0 auto;
 }
