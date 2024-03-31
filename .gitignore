@@ -2,3 +2,4 @@
 /backend/config/database.yml
 /.vscode
 /backend/app/test.rb
+memo.md
