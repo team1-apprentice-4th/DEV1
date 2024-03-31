@@ -1,3 +1,7 @@
+.wrapper {
+  position: relative;
+}
+
 .container {
   padding: 15px 50px;
 }
@@ -12,8 +16,9 @@
 
 h1 {
   position: absolute;
-  top: 0;
-  left: 580px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
   text-align: center;
   font-size: 18px;
   background-color: #fff;
@@ -40,6 +45,7 @@ h1 {
 label {
   margin-right: 20px;
   margin-bottom: 2px;
+  display: inline-flex;
 }
 
 label a {

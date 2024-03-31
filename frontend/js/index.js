@@ -79,6 +79,17 @@ const history = document.querySelector(".history");
         a_updated_at.classList.add('update_date');
         a_updated_at.appendChild(updated_at);
         a_updated_at.appendChild(update_stamp);
+        // 技術カテゴリー
+        const tech_categories = [];
+        if (0 < memo.tech_category.length) {
+          memo.tech_category.forEach(category => {
+            const tech_category = document.createTextNode(category);
+            let a_tech_category = document.createElement('a');
+            a_tech_category.classList.add('tech_category');
+            a_tech_category.appendChild(tech_category);
+            tech_categories.push(a_tech_category);
+          })
+        }
         // タイトル表示
         const title = document.createTextNode(memo.title_name);
         let p_title = document.createElement('p');
@@ -90,6 +101,9 @@ const history = document.querySelector(".history");
         // データ挿入
         div.appendChild(a_posted_at);
         div.appendChild(a_updated_at);
+        for(let i = 0; i < tech_categories.length ;i++){
+          div.appendChild(tech_categories[i]);
+        }
         div.appendChild(p_title);
         memos_array.push(div);
       }
@@ -132,6 +146,17 @@ const history = document.querySelector(".history");
             const update_stamp = document.createTextNode('更新');
             a_updated_at.appendChild(updated_at);
             a_updated_at.appendChild(update_stamp);
+            // 技術カテゴリーの表示
+            const tech_categories = [];
+            if (0 < element.tech_category.length) {
+            element.tech_category.forEach(category => {
+                const tech_category = document.createTextNode(category);
+                let a_tech_category = document.createElement('a');
+                a_tech_category.classList.add('tech_category');
+                a_tech_category.appendChild(tech_category);
+                tech_categories.push(a_tech_category);
+              })
+            }
             // タイトルの表示
             const title = document.createTextNode(element.title_name);
             let p_title = document.createElement('p');
@@ -152,6 +177,9 @@ const history = document.querySelector(".history");
             // データ挿入
             div.appendChild(a_posted_at);
             div.appendChild(a_updated_at);
+            for(let i = 0; i < tech_categories.length ;i++){
+              div.appendChild(tech_categories[i]);
+            }
             div.appendChild(p_title);
             div.appendChild(p_detail);
             div.appendChild(p_solution);
