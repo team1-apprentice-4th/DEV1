@@ -27,16 +27,31 @@ server.mount_proc '/memos' do |req, res|
     begin
       # リクエストクエリパラメタからキーを取得
       data = req.query
-      title, categories = data.values_at('title', 'tag')
+      title, tag_categories = data.values_at('title', 'tag')
 
       # こで得するために必要なSQLを書く
       statement = client.prepare('SELECT memo_id, title_name, solution, posted_at, last_updated_at, resolved_at FROM memos WHERE title_name LIKE ?')
       results = statement.execute("%#{title}%").to_a
+
       statement = client.prepare('SELECT tech_category_name FROM memo_tech_categories AS mt INNER JOIN tech_categories AS tc ON mt.tech_category_id = tc.tech_category_id WHERE memo_id = ?;')
-      results.each_with_index do |result, i|
-        categories = statement.execute(result['memo_id']).to_a
+      cloned_results = results.clone
+      cloned_results.each_with_index do |_result, i|
+        categories = statement.execute(results[i]['memo_id']).to_a
         smoothed_tech_categories = categories.map { |category| category['tech_category_name'] }
-        results[i].store('tech_category', smoothed_tech_categories)
+
+        if tag_categories.nil?
+          results[i].store('tech_category', smoothed_tech_categories)
+          next
+        end
+
+        next if results.nil?
+        next if results.empty?
+
+        if smoothed_tech_categories.any? { |category| tag_categories.include?(category) }
+          results[i].store('tech_category', smoothed_tech_categories)
+        else
+          results.delete_at(i)
+        end
       end
 
       # 結果をJSON形式で返す
