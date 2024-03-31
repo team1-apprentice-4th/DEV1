@@ -33,26 +33,29 @@ server.mount_proc '/memos' do |req, res|
       statement = client.prepare('SELECT memo_id, title_name, solution, posted_at, last_updated_at, resolved_at FROM memos WHERE title_name LIKE ?')
       results = statement.execute("%#{title}%").to_a
 
+      category_check_result = []
       statement = client.prepare('SELECT tech_category_name FROM memo_tech_categories AS mt INNER JOIN tech_categories AS tc ON mt.tech_category_id = tc.tech_category_id WHERE memo_id = ?;')
       cloned_results = results.clone
       cloned_results.each_with_index do |_result, i|
         categories = statement.execute(results[i]['memo_id']).to_a
         smoothed_tech_categories = categories.map { |category| category['tech_category_name'] }
 
+        # タグ無しならタイトルとの部分一致検索のみ
         if tag_categories.nil?
           results[i].store('tech_category', smoothed_tech_categories)
           next
         end
 
-        next if results.nil?
-        next if results.empty?
-
         if smoothed_tech_categories.any? { |category| tag_categories.include?(category) }
           results[i].store('tech_category', smoothed_tech_categories)
+          category_check_result.push(false)
         else
-          results.delete_at(i)
+          category_check_result.push(true)
         end
       end
+
+      # カテゴリに含まれない結果は削除
+      results.delete_if.with_index { |_, i| category_check_result[i] }
 
       # 結果をJSON形式で返す
       res.status = 200
