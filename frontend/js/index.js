@@ -1,22 +1,21 @@
-
 const searchbuttom=document.querySelector(".searchimg");
 const tags = document.querySelectorAll(".tagelement");
 const history = document.querySelector(".history");
 
 
-// タグをクリックした際の操作
-let times = {};
-tags.forEach(tag => {
-  times[tag.id] = 0;
-  tag.addEventListener('click', () => {
-    if (times[tag.id] % 2 == 0) {
-      tag.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-    } else {
-      tag.style.backgroundColor = 'rgb(158, 250, 255)';
-    }
-    times[tag.id]++;
+  // タグをクリックした際の操作
+  let times = {};
+  tags.forEach(tag => {
+    times[tag.id] = 0;
+    tag.addEventListener('click', () => {
+      if (times[tag.id] % 2 == 0) {
+        tag.style.backgroundColor = 'rgb(158, 250, 255)';
+      } else {
+        tag.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+      }
+      times[tag.id]++;
+    });
   });
-});
 
 // 検索をかけるtagの取得
 function gettags(times){
