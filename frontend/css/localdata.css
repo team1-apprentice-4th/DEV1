@@ -39,4 +39,11 @@ a.tech_category {
   border-radius: 30px;
   font-weight: bold;
   margin-left: 5px;
+
+.date_container a.tech_category {
+  font-size: 11px;
+  margin-left: 10px;
+  height: 10px;
+  line-height: 10px;
+  align-items: center;
 }
