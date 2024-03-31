@@ -16,8 +16,10 @@ CREATE TABLE memos (
     resolved_at TIMESTAMP,
     user_id INT,
     detail VARCHAR(200),
+    resolved TINYINT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
 
 CREATE TABLE tech_categories (
     tech_category_id INT AUTO_INCREMENT PRIMARY KEY,

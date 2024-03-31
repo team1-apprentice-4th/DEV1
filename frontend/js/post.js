@@ -17,19 +17,17 @@ function get_checked_category (){
   }
 }
 
-// 未解決or解決済みを取得
-function get_checked_resolved (){
-  let checkboxes = document.querySelectorAll("input[name=resolved]");
-  let checked_resolved = [];
-  if( 0 < checkboxes.length) {
-    for(const element of checkboxes) {
-      if(element.checked) {
-        checked_resolved.push(element.id);
-      }
+function get_checked_resolved() {
+  let radioButtons = document.querySelectorAll("input[name='resolved']");
+  for (const radioButton of radioButtons) {
+    if (radioButton.checked) {
+      return radioButton.id === "unsolved" ? 0 : 1;
     }
-    return checked_resolved;
   }
+  return null;
 }
+
+
 
 postbuttom.addEventListener('click',async function(e){
   // ページの更新を防ぐ
@@ -41,7 +39,8 @@ postbuttom.addEventListener('click',async function(e){
 
   // ローカルDBに検索に必要なクエリを作成
   const temp = {
-    "error":error,
+    "method": 'POST',
+    "title":error,
     "category":get_checked_category(),
     "detail":detail,
     "solution":solution,

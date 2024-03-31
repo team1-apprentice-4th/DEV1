@@ -204,21 +204,43 @@ searchbuttom.addEventListener('click',async function(e){
             saveButton.textContent = '保存';
             div.appendChild(saveButton);
 
+            // 「未解決」と「解決済み」のラジオボタンを追加
+            let resolvedDiv = document.createElement('div');
+            resolvedDiv.classList.add('resolved');
+
+            let labelUnsolved = document.createElement('label');
+            labelUnsolved.innerHTML = '<input type="radio" name="resolved" value="0" id="unsolved"> 未解決';
+            let labelResolved = document.createElement('label');
+            labelResolved.innerHTML = '<input type="radio" name="resolved" value="1" id="resolved"> 解決済み';
+
+            // 既存の状態に基づいてラジオボタンをチェック
+            if (element.resolved) {
+                labelResolved.querySelector('input').checked = true;
+            } else {
+                labelUnsolved.querySelector('input').checked = true;
+            }
+
+            resolvedDiv.appendChild(labelUnsolved);
+            resolvedDiv.appendChild(labelResolved);
+
+            // 編集フォームに追加
+            div.appendChild(resolvedDiv);
+
+            console.log(element.resolved)
+
             // 保存ボタンのクリックイベントリスナー
             saveButton.addEventListener('click', async function() {
-              // ローカルDBに検索に必要なクエリを作成
               const temp = {
-                "title": inputTitle.value,
-                "detail": inputDetail.value,
-                "solution": inputSolution.value,
+                memo_id: element.memo_id,
+                method: 'PUT',
+                title: inputTitle.value,
+                detail: inputDetail.value,
+                solution: inputSolution.value,
               };
-              // // JSON形式に変換
-              config = JSON.stringify(temp);
 
               try {
                 // PUTリクエストでデータを送信（URLの末尾にmemo_idを付加）
-                console.log(config);
-                const response = await axios.put(`http://localhost:4567/memos/${element.memo_id}`, config);
+                const response = await axios.post('http://localhost:4567/memos', JSON.stringify(temp));
 
                 // 保存が完了したらモーダルを閉じてリストをクリア
                 document.getElementById('mask').classList.add('hidden');
@@ -233,6 +255,7 @@ searchbuttom.addEventListener('click',async function(e){
               }
             });
 
+
           });
 
           // 削除ボタンのクリックイベントリスナー
@@ -243,7 +266,11 @@ searchbuttom.addEventListener('click',async function(e){
 
             if (isConfirmed) {
               // OKがクリックされた場合、APIを実行して削除処理を行う
-              axios.delete(`http://localhost:4567/memos/${element.memo_id}`)
+              const temp = {
+                memo_id: element.memo_id,
+                method: 'DELETE'
+              };
+              axios.post('http://localhost:4567/memos', JSON.stringify(temp))
                 .then(response => {
                   console.log('削除されたデータ:', response.data);
                   alert('削除完了しました');

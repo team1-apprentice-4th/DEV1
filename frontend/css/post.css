@@ -91,7 +91,7 @@ label, input[type='checkbox'] {
 }
 
 .resolved {
-  display: none;
+  margin-top: 20px;
 }
 
 .btn {
