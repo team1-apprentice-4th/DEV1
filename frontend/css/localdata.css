@@ -34,9 +34,11 @@ a.post_date {
 a.tech_category {
   background-color: #FFAE00;
   color: #fff;
-  font-size: 12px;
+  display: inline-block;
+  font-size: 11px;
   padding: 5px;
   border-radius: 30px;
   font-weight: bold;
   margin-left: 5px;
+  line-height: 11px;
 }
