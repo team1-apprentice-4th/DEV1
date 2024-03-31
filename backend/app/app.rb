@@ -31,7 +31,7 @@ server.mount_proc '/memos' do |req, res|
     begin
       # リクエストクエリパラメタからキーを取得
       data = req.query
-      title, resolved, tag_categories = data.values_at('title', 'resolved', 'tag')
+      title, resolved, tag_categories = data.values_at('title', 'option', 'tag')
 
       # こで得するために必要なSQLを書く
       title = if title.nil?
